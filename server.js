@@ -92,7 +92,11 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
     try{
         let foundUser = users.find((data) => req.body.email === data.email);
-        if (foundUser) {
+	let founduserDB = db.prepare(`select id from userinfo where username =  ${req.body.username} `);
+	let row = founduserDB.get();
+	    if(row === undefined)
+	    {}
+        if (foundUser && row === undefined) {
     
             let submittedPass = req.body.password; 
             let storedPass = foundUser.password; 
