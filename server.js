@@ -31,9 +31,23 @@ const bcrypt = require('bcrypt');
 const path = require("path");
 const bodyParser = require('body-parser');
 const users = require('./data').userDB;
-
+const database = require('better-sqlite3');
 const app = express();
 const server = http.createServer(app);
+
+const db = new database('users.db');     // creating a database to store users data 
+
+// creating a user info table 
+const stmt = ` CREATE TABLE IF NOT EXISTS userinfo (
+		     id INTEGER PRIMARY KEY, 
+		     username TEXT, 
+		     email TEXT, 
+		     password TEXT
+	);`
+
+db.exec(stmt);
+
+
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname,'./frontend')));
@@ -59,7 +73,13 @@ app.post('/register', async (req, res) => {
             };
             users.push(newUser);
             console.log('User list', users);
-    
+             
+		// inserting new user data into table
+	    const adduser = db.prepare(`INSERT INTO userinfo (id, username, email, password) VALUES (?,?,?)`);
+		// inserting the values from newUser into the SQL statement
+	    const info = adduser.run(newUser.id, newUser.username, newUser.email, newUser.password);
+		
+
             res.send("<div align ='center'><h2>Registration successful</h2></div><br><br><div align='center'><a href='./login.html'>login</a></div><br><br><div align='center'><a href='./registration.html'>Register another user</a></div>");
         } else {
             res.send("<div align ='center'><h2>Email already used</h2></div><br><br><div align='center'><a href='./registration.html'>Register again</a></div>");
@@ -80,8 +100,9 @@ app.post('/login', async (req, res) => {
             const passwordMatch = await bcrypt.compare(submittedPass, storedPass);
             if (passwordMatch) {
                 let usrname = foundUser.username;
-                res.send(`<div align ='center'><h2>login successful</h2></div><br><br><br><div align ='center'><h3>Hello ${usrname}</h3></div><br><br><div align='center'><a href='./login.html'>logout</a></div>`);
-            } else {
+                res.send(`<div align ='center'><h2>login successful</h2></div><br><br><br><div align ='center'><h3>Hello ${usrname}</h3></div><br><br><div align='center'><a href='./login.html'>logout </div><br><br> <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"><label for="vehicle1"> I have a bike</label><br> </a></div>`);
+		
+	    } else {
                 res.send("<div align ='center'><h2>Invalid email or password</h2></div><br><br><div align ='center'><a href='./login.html'>login again</a></div>");
             }
         }
