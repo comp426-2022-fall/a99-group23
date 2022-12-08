@@ -117,7 +117,8 @@ app.post('/login', async (req, res) => {
             const passwordMatch = await bcrypt.compare(submittedPass, storedPass);
             if (passwordMatch) {
                 let usrname = d.username;
-                res.send(`<div align ='center'><h2>login successful</h2></div><br><br><br><div align ='center'><h3>Hello ${usrname} </h3></div><br><br><div align='center'><a href='./login.html'>logout </a></div>`);
+                res.sendFile(path.join(__dirname,'./frontend/checklist.html'));
+                // res.send(`<div align ='center'><h2>login successful</h2></div><br><br><br><div align ='center'><h3>Hello ${usrname} </h3></div><br><br><div align='center'><a href='./login.html'>logout </a></div>`);
 		
 	    } 
 	    else {
