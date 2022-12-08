@@ -1,0 +1,19 @@
+.center {
+    text-align: center;
+}
+
+body {
+    background-color: lavender;
+}
+
+h1 {
+    font-family: 'Copperplate', fantasy;
+    font-weight: 300;
+    font-size: 100px;
+}
+
+a {
+    text-align: center;
+    font-family: 'Lucida Console';
+}
+
