@@ -5,7 +5,7 @@
 Recipe Finder gives users the ability to find recipes - 
 and fast! When given a checklist of common household groceries,
 users can select what they have available and Recipe Finder
-will give them a few delicious recipes to choose from and try out.
+will give them a few delicious recipes to choose from and try out!
 
 ## Demo
 *Demo Video*
