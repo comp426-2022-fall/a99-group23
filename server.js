@@ -56,6 +56,10 @@ app.get('/',(req,res) => {
     res.sendFile(path.join(__dirname,'./frontend/index.html'));
 });
 
+app.get('/app',(req,res) => {
+    res.sendFile(path.join(__dirname,'./frontend/index.html'));
+});
+
 
 app.post('/register', async (req, res) => {
     try{
@@ -138,7 +142,6 @@ app.post('/login', async (req, res) => {
 	res.send("Email not registered");
     }
 });
-
 
 server.listen(3000, function(){
     console.log("server is listening on port: 3000");
