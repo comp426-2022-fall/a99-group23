@@ -14,7 +14,7 @@ will give them a few delicious recipes to choose from and try out.
 To install, clone this repository and run ``npm install`` to install
 all dependencies needed for this application.
 
-Then, run ``node server.js`` to run the application,
+Then, run ``node server.js`` to start the application.
 
 Type localhost:3000/ into your browser to go to the application's homepage.
 
