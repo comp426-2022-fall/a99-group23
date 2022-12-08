@@ -34,7 +34,6 @@ const users = require('./data').userDB;
 const database = require('better-sqlite3');
 const app = express();
 const server = http.createServer(app);
-
 const db = new database('users.db');     // creating a database to store users data 
 
 // creating a user info table 
@@ -47,11 +46,11 @@ const stmt = ` CREATE TABLE IF NOT EXISTS userinfo (
 
 db.exec(stmt);
 
-
+// checking for errors
+console.log('table created if it had not existed')
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname,'./frontend')));
-
 
 app.get('/',(req,res) => {
     res.sendFile(path.join(__dirname,'./frontend/index.html'));
@@ -60,53 +59,68 @@ app.get('/',(req,res) => {
 
 app.post('/register', async (req, res) => {
     try{
-        let foundUser = users.find((data) => req.body.email === data.email);
-        if (!foundUser) {
-    
+          const c = db.prepare(`select username, password, email from userinfo where email = ?`);
+          
+	  const d = c.get(req.body.email);	       
+        
+	    if ( d === undefined) {        // checking that email does not already exists: sql query result must be undefined
+           
             let hashPassword = await bcrypt.hash(req.body.password, 10);
     
             let newUser = {
                 id: Date.now(),
                 username: req.body.username,
                 email: req.body.email,
-                password: hashPassword,
+                password: hashPassword
             };
+		 
             users.push(newUser);
             console.log('User list', users);
-             
+              
 		// inserting new user data into table
-	    const adduser = db.prepare(`INSERT INTO userinfo (id, username, email, password) VALUES (?,?,?)`);
+	    const adduser = db.prepare(`INSERT INTO userinfo (id, username, email, password) VALUES (?,?,?,?)`);
 		// inserting the values from newUser into the SQL statement
 	    const info = adduser.run(newUser.id, newUser.username, newUser.email, newUser.password);
-		
+	    
+            console.log('this is info.changes: ' + info.changes); // outputs 1 to console if user had been successfully added
 
             res.send("<div align ='center'><h2>Registration successful</h2></div><br><br><div align='center'><a href='./login.html'>login</a></div><br><br><div align='center'><a href='./registration.html'>Register another user</a></div>");
         } else {
             res.send("<div align ='center'><h2>Email already used</h2></div><br><br><div align='center'><a href='./registration.html'>Register again</a></div>");
         }
-    } catch{
-        res.send("Internal server error");
+    } catch (e) {
+        res.send("Error: " + e.message);
     }
 });
 
 app.post('/login', async (req, res) => {
     try{
-        let foundUser = users.find((data) => req.body.email === data.email);
-	let founduserDB = db.prepare(`select id from userinfo where username =  ${req.body.username} `);
-	let row = founduserDB.get();
-	    if(row === undefined)
-	    {}
-        if (foundUser && row === undefined) {
-    
+	
+	const c = db.prepare(`select username, password, email from userinfo where email = ?`);
+        const d = c.get(req.body.email);
+
+	let a = JSON.stringify(d.email);
+
+	let b = JSON.stringify(req.body.email);
+
+	console.log(JSON.stringify(d.email) === JSON.stringify(req.body.email));   // to check if emails match and are of the same type         
+	console.log("this is the result of the query: " + JSON.stringify(d.password))
+	    
+        if (d!= undefined && a==b) {
+             console.log(req.body.password, req.body.username, req.body.email )
             let submittedPass = req.body.password; 
-            let storedPass = foundUser.password; 
+		console.log("This is the submittedPass" + submittedPass + typeof(submittedPass));
+            
+		let storedPass = d.password;
+		console.log("This is storedPass" + storedPass + typeof(storedPass));
     
             const passwordMatch = await bcrypt.compare(submittedPass, storedPass);
             if (passwordMatch) {
-                let usrname = foundUser.username;
-                res.send(`<div align ='center'><h2>login successful</h2></div><br><br><br><div align ='center'><h3>Hello ${usrname}</h3></div><br><br><div align='center'><a href='./login.html'>logout </div><br><br> <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"><label for="vehicle1"> I have a bike</label><br> </a></div>`);
+                let usrname = d.username;
+                res.send(`<div align ='center'><h2>login successful</h2></div><br><br><br><div align ='center'><h3>Hello ${usrname} </h3></div><br><br><div align='center'><a href='./login.html'>logout </a></div>`);
 		
-	    } else {
+	    } 
+	    else {
                 res.send("<div align ='center'><h2>Invalid email or password</h2></div><br><br><div align ='center'><a href='./login.html'>login again</a></div>");
             }
         }
@@ -117,8 +131,10 @@ app.post('/login', async (req, res) => {
     
             res.send("<div align ='center'><h2>Invalid email or password</h2></div><br><br><div align='center'><a href='./login.html'>login again<a><div>");
         }
-    } catch{
-        res.send("Internal server error");
+    } 
+	    catch(e) {
+        //res.send("Error: " + e.message);
+	res.send("Email not registered");
     }
 });
 
