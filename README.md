@@ -24,14 +24,14 @@ Type localhost:3000/ into your browser to go to the application's homepage.
 Click this link to see our [Team Roles](docs/roles.md)
 
 ## Planning / Execution Process
-Click this link to find out more about our team's [Planning Process](docs/planning.md).
+Click this link to find out more about our team's [Planning Process](docs/planning.md)
 
 ## Dependencies
 *List all dependencies when code is done*
 
 ## API Endpoints
-Click this link for a list of the application's [API Endpoints](docs/api.md).
+Click this link for a list of the application's [API Endpoints](docs/api.md)
 
 ## Future Additions
-Click this link to find out more about the application's potential [Future Additions](docs/api.md).
+Click this link to find out more about the application's potential [Future Additions](docs/api.md)
 
