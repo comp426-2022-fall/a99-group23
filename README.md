@@ -33,5 +33,5 @@ Click this link to find out more about our team's [Planning Process](docs/planni
 Click this link for a list of the application's [API Endpoints](docs/api.md)
 
 ## Future Additions
-Click this link to find out more about the application's potential [Future Additions](docs/api.md)
+Click this link to find out more about the application's potential [Future Additions](docs/futureadditions.md)
 
