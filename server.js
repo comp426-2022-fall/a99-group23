@@ -108,9 +108,7 @@ app.post('/login', async (req, res) => {
     
             const passwordMatch = await bcrypt.compare(submittedPass, storedPass);
             if (passwordMatch) {
-                let usrname = d.username;
                 res.sendFile(path.join(__dirname,'./frontend/checklist.html'));
-                // res.send(`<div align ='center'><h2>login successful</h2></div><br><br><br><div align ='center'><h3>Hello ${usrname} </h3></div><br><br><div align='center'><a href='./login.html'>logout </a></div>`);
 		
 	    } 
 	    else {
@@ -119,15 +117,15 @@ app.post('/login', async (req, res) => {
         }
         else {
     
-            let fakePass = `$2b$$10$ifgfgfgfgfgfgfggfgfgfggggfgfgfga`;
-            await bcrypt.compare(req.body.password, fakePass);
+            let fPass = `$2b$$10$ifgfgfgfgfgfgfggfgfgfggggfgfgfgagdfgdfgdfg`;
+            await bcrypt.compare(req.body.password, fPass);
     
             res.send("<div align ='center'><h2>Invalid email or password</h2></div><br><br><div align='center'><a href='./login.html'>login again<a><div>");
         }
     } 
 	    catch(e) {
         //res.send("Error: " + e.message);
-	res.send("Email not registered");
+	res.send("<div align ='center'><h2>Email not registered</h2></div><br><br><div align='center'><a href='./registration.html'>Register</a><br><a href='./login.html'>Login</a><br></div>");
     }
 });
 
