@@ -75,13 +75,14 @@ app.post('/register', async (req, res) => {
             console.log('User list', users);
              
 		// inserting new user data into table
-	    const adduser = db.prepare(`INSERT INTO userinfo (id, username, email, password) VALUES (?,?,?)`);
+	    const adduser = db.prepare(`INSERT INTO userinfo (id, username, email, password) VALUES (?,?,?,?)`);
 		// inserting the values from newUser into the SQL statement
 	    const info = adduser.run(newUser.id, newUser.username, newUser.email, newUser.password);
 		
 
             res.send("<div align ='center'><h2>Registration successful</h2></div><br><br><div align='center'><a href='./login.html'>login</a></div><br><br><div align='center'><a href='./registration.html'>Register another user</a></div>");
-        } else {
+        } 
+        else {
             res.send("<div align ='center'><h2>Email already used</h2></div><br><br><div align='center'><a href='./registration.html'>Register again</a></div>");
         }
     } catch{
@@ -92,11 +93,10 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
     try{
         let foundUser = users.find((data) => req.body.email === data.email);
-	let founduserDB = db.prepare(`select id from userinfo where username =  ${req.body.username} `);
-	let row = founduserDB.get();
-	    if(row === undefined)
-	    {}
-        if (foundUser && row === undefined) {
+	    // let founduserDB = db.prepare(`select id from userinfo where username =  ${req.body.username} `);
+	    // let row = founduserDB.get();
+
+        if (foundUser) {
     
             let submittedPass = req.body.password; 
             let storedPass = foundUser.password; 
@@ -104,9 +104,10 @@ app.post('/login', async (req, res) => {
             const passwordMatch = await bcrypt.compare(submittedPass, storedPass);
             if (passwordMatch) {
                 let usrname = foundUser.username;
-                res.send(`<div align ='center'><h2>login successful</h2></div><br><br><br><div align ='center'><h3>Hello ${usrname}</h3></div><br><br><div align='center'><a href='./login.html'>logout </div><br><br> <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"><label for="vehicle1"> I have a bike</label><br> </a></div>`);
-		
-	    } else {
+                // res.send(`<div align ='center'><h2>login successful</h2></div><br><br><br><div align ='center'><h3>Hello ${usrname}</h3></div><br><br><div align='center'><a href='./login.html'>logout </div><br><br> <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"><label for="vehicle1"> I have a bike</label><br> </a></div>`);
+                res.sendFile(path.join(__dirname,'./frontend/checklist.html'));
+	        } 
+            else {
                 res.send("<div align ='center'><h2>Invalid email or password</h2></div><br><br><div align ='center'><a href='./login.html'>login again</a></div>");
             }
         }
