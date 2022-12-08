@@ -1,56 +1,37 @@
-# a99-group23
-Group 23's Final Project
 
-# a99 Final Project
+# Recipe Finder
 
-## Summary 
+## Summary
+Recipe Finder gives users the ability to find recipes - 
+and fast! When given a checklist of common household groceries,
+users can select what they have available and Recipe Finder
+will give them a few delicious recipes to choose from and try out.
 
-COMP426 final project template boilerplate.
-All your code and documentation goes here.
-Change this text to be a brief description of your final project.
-Put the name of your project in the header above.
-You will change everything below to be the main technical documentation, as outlined below.
+## Demo
+*Demo Video*
 
-## First steps
+## Install and Run
+To install, clone this repository and run ``npm install`` to install
+all dependencies needed for this application.
 
-Other steps that you will need to take after your team has accepted the assignment:
+Then, run ``node server.js`` to run the application,
 
-1. Choose a license and update the LICENSE file accordingly. 
-2. Edit this README.md file and use it as the main location of your technical documentation with links out to information contained under `/docs/`.
-3. Create a `/docs/` directory for more elaborate documentation of your API, planning notes, etc.
-4. Make sure that all of your team members have access to the repository as administrators.
-5. Create a project under the **Projects** tab. Use this to manage your planning. Create a To-do list, etc. Explore the tools available and user them to manage your project.
-7. Assign team roles and include a listing of those roles in this README.md file or in another file under `/docs/`.
-8. Then put your entire development workflow in this repository.
-9. Use **Pull requests** to propose changes and incorporate them into your code from various team members. 
-10. Use **Issues** to identify and track bugs and also to communicate about various aspects of the project.
+Type localhost:3000/ into your browser to go to the application's homepage.
 
-## Team mangement
+``Ctrl+C`` will terminate the application.
 
-Plan to meet with your team ASAP.
-Talk through identifying roles within your team.
+## Team Roles
+Click this link to see our [Team Roles](docs/roles.md)
 
-Try to figure out what each of you are good at/enjoy doing and try to work out roles that incorporate that.
+## Planning / Execution Process
+Click this link to find out more about our team's [Planning Process](docs/planning.md)
 
-Some basic roles you will want to consider:
+## Dependencies
+*List all dependencies when code is done*
 
-1. A review manager - someone to review pull requests and merge or reject them and manage the related discussions
-2. A plan manager - someone to keep an eye on the overall plan and keep the project tab/to-do list up to date
-3. A documentation manager - someone to keep the documentation in order and identify what is missing and needs to be documented
-4. A release manager - someone to manage the packaging and release process for your prototype package
-5. A project manager - someone keeping track of all the moving parts and make sure that everything that needs to happen is happening.
-5. Roles for team members to take charge or different parts of the project. Possible roles:
-    1. Front end lead
-    2. Back end lead
-    3. Database lead
-    4. Design lead
-    5. Etc.
+## API Endpoints
+Click this link for a list of the application's [API Endpoints](docs/api.md)
 
-You will notice that there are more roles than people in your group.
-That is because you will all be doing a hybrid job of managing a thing while working on other things.
+## Future Additions
+Click this link to find out more about the application's potential [Future Additions](docs/futureadditions.md)
 
-## Assignment instructions
-
-And that is about all you need to get started.
-
-Good skill and be creative!
