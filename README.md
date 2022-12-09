@@ -2,7 +2,7 @@
 # Recipe Maker
 
 ## Summary
-Recipe Finder gives users the ability to find recipes - 
+Recipe Maker gives users the ability to find recipes - 
 and fast! When given a checklist of common household groceries,
 users can select what they have available and Recipe Finder
 will give them a few delicious recipes to choose from and try out.
@@ -27,7 +27,15 @@ Click this link to see our [Team Roles](docs/roles.md)
 Click this link to find out more about our team's [Planning Process](docs/planning.md)
 
 ## Dependencies
-*List all dependencies when code is done*
+* minimist
+* express
+* http
+* bcrypt
+* path
+* body-parser
+* morgan
+* fs
+* better-sqlite3
 
 ## API Endpoints
 Click this link for a list of the application's [API Endpoints](docs/api.md)
