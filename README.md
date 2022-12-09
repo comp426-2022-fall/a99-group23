@@ -1,5 +1,5 @@
 
-# Recipe Finder
+# Recipe Maker
 
 ## Summary
 Recipe Finder gives users the ability to find recipes - 
