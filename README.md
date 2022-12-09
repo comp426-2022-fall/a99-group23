@@ -1,20 +1,23 @@
 
-# Recipe Finder
+# Recipe Maker
 
 ## Summary
-Recipe Finder gives users the ability to find recipes - 
+Recipe Maker gives users the ability to find recipes - 
 and fast! When given a checklist of common household groceries,
 users can select what they have available and Recipe Finder
 will give them a few delicious recipes to choose from and try out.
 
 ## Demo
-*Demo Video*
+Click on this image to see our demo video!
+[![IMAGE ALT TEXT HERE](https://i.postimg.cc/rFKHVYS6/426.png)](https://youtu.be/N2cDCBbfnEk)
 
 ## Install and Run
 To install, clone this repository and run ``npm install`` to install
 all dependencies needed for this application.
 
-Then, run ``node server.js`` to run the application,
+Then, run ``node server.js`` to start the application.
+
+Run ``npm test`` for debugging.
 
 Type localhost:3000/ into your browser to go to the application's homepage.
 
@@ -27,7 +30,15 @@ Click this link to see our [Team Roles](docs/roles.md)
 Click this link to find out more about our team's [Planning Process](docs/planning.md)
 
 ## Dependencies
-*List all dependencies when code is done*
+* minimist
+* express
+* http
+* bcrypt
+* path
+* body-parser
+* morgan
+* fs
+* better-sqlite3
 
 ## API Endpoints
 Click this link for a list of the application's [API Endpoints](docs/api.md)
