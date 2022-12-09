@@ -5,11 +5,11 @@ At the moment, our application allows a user to select a common pantry item that
 * Save recipes the user may want to use later
 * Include more ingredients and recipes, overall
 * Implemented a new page that would let a user view their user info.
-* * We would have implemented this by creating a new API endpoint which accessed the data and displayed the user information on the screen.
-* * app.post('/account-history', async (req, res) => { });
+ * We would have implemented this by creating a new API endpoint which accessed the data and displayed the user information on the screen.
+ * app.post('/account-history', async (req, res) => { });
 * Implemented a new page that would let a user update their user info.
-* * We would have implemented this by creating a new API endpoint which accessed the user data and allowed the user to change their information.
-* * app.post('/update', async (req, res) => { });
+ * We would have implemented this by creating a new API endpoint which accessed the user data and allowed the user to change their information.
+ * app.post('/update', async (req, res) => { });
 * Let user delete their account that they no longer need.
-* * We would have implemented this by creating a new API endpoint which deleted the user data.
-* * app.post('/delete-info', async (req, res) => { });
+ * We would have implemented this by creating a new API endpoint which deleted the user data.
+ * app.post('/delete-info', async (req, res) => { });
