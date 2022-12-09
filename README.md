@@ -16,6 +16,8 @@ all dependencies needed for this application.
 
 Then, run ``node server.js`` to start the application.
 
+Run ``npm test`` for debugging.
+
 Type localhost:3000/ into your browser to go to the application's homepage.
 
 ``Ctrl+C`` will terminate the application.
