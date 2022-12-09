@@ -32,7 +32,7 @@ const stmt = ` CREATE TABLE IF NOT EXISTS userinfo (
 		     email TEXT, 
 		     password TEXT,
 		     login_history LONGTEXT,
-		     register_time TEXT
+		     last_login TEXT
 	);`
 
 db.exec(stmt);
@@ -73,16 +73,16 @@ app.post('/register', async (req, res) => {
                 email: req.body.email,
                 password: hashPassword,
 		login_history: Date.now().toString(), //SQL doesn't like arrays so login history is stored as LONGTEXT where every set of 13 numbers is a Date.now() entry. The first 13 characters will be the registration date, the next 13 are the next login, last 13 are most recent login
-		register_time: Date.now().toString()
+		last_login: Date.now().toString()
             };
 		 
             users.push(newUser);
             console.log('User list', users);
               
 		// inserting new user data into table
-	    const adduser = db.prepare(`INSERT INTO userinfo (id, username, email, password, login_history, register_time) VALUES (?,?,?,?,?,?)`);
+	    const adduser = db.prepare(`INSERT INTO userinfo (id, username, email, password, login_history, last_login) VALUES (?,?,?,?,?,?)`);
 		// inserting the values from newUser into the SQL statement
-	    const info = adduser.run(newUser.id, newUser.username, newUser.email, newUser.password, newUser.login_history, newUser.register_time);
+	    const info = adduser.run(newUser.id, newUser.username, newUser.email, newUser.password, newUser.login_history, newUser.last_login);
 	    
             console.log('this is info.changes: ' + info.changes); // outputs 1 to console if user had been successfully added
 
@@ -126,11 +126,16 @@ app.post('/login', async (req, res) => {
     
             const passwordMatch = await bcrypt.compare(submittedPass, storedPass);
             if (passwordMatch) {
+		//var new_log = Date.now().toString()
+		//var q1 = `UPDATE userinfo SET last_login = ` + new_log + ` WHERE email = req.body.email`
+		//var q2 = `UPDATE userinfo SET login_history = login_history` + last_login `WHERE email = req.body.email`
+		//const g = db.query(q1)
+		//const f = db.query(q2)
 		
 		morgan.token("username", function getCode(req) {
 			 return d.username;
                 });
-                let usrname = d.username;
+
                 res.sendFile(path.join(__dirname,'./frontend/checklist.html'));
 		
 	    } 
@@ -150,15 +155,6 @@ app.post('/login', async (req, res) => {
         //res.send("Error: " + e.message);
 	res.send("<div align ='center'><h2>Email not registered</h2></div><br><br><div align='center'><a href='./registration.html'>Register</a><br><a href='./login.html'>Login</a><br></div>");
     }
-});
-
-app.post('/account-history', async (req, res) => {
-    const c = db.prepare(`select username, password, register_time, email from userinfo where email = ?`);
-        const d = c.get(req.body.email);
-    let username = d.username;
-    let email = d.email;
-    let time = d.register_time;
-    res.render(__dirname + "./frontend/account-history.pug", {username:username, email: email, time: time});
 });
 
 
