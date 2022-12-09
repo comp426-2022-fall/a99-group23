@@ -8,7 +8,7 @@ users can select what they have available and Recipe Finder
 will give them a few delicious recipes to choose from and try out.
 
 ## Demo
-*Demo Video*
+[![IMAGE ALT TEXT HERE](https://i.postimg.cc/rFKHVYS6/426.png)](https://youtu.be/N2cDCBbfnEk)
 
 ## Install and Run
 To install, clone this repository and run ``npm install`` to install
