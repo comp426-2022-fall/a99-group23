@@ -4,12 +4,13 @@ const http = require('http');
 const bcrypt = require('bcrypt');
 const path = require("path");
 const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const fs = require('fs');
 const users = require('./data').userDB;
 const database = require('better-sqlite3');
 const app = express();
 const server = http.createServer(app);
 const db = new database('users.db'); 
-
 const args = minimist(process.argv.slice(2));
 const port = args.port|| 3000;
 
@@ -29,14 +30,21 @@ const stmt = ` CREATE TABLE IF NOT EXISTS userinfo (
 		     id INTEGER PRIMARY KEY, 
 		     username TEXT, 
 		     email TEXT, 
-		     password TEXT
+		     password TEXT,
+		     login_history LONGTEXT,
+		     last_login TEXT
 	);`
 
 db.exec(stmt);
 
 // checking for errors
 console.log('table created if it had not existed')
+const accesslog = fs.createWriteStream('./access.log', {flags:'a'});
+morgan.token("username", function getCode(req) {
+	                 return 'admin'; 
+});
 
+        app.use(morgan(':date[clf] :remote-user :method :url HTTP/:http-version :status :res[content-length] - :response-time ms :username', {stream: accesslog}));
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname,'./frontend')));
 
@@ -63,16 +71,18 @@ app.post('/register', async (req, res) => {
                 id: Date.now(),
                 username: req.body.username,
                 email: req.body.email,
-                password: hashPassword
+                password: hashPassword,
+		login_history: Date.now().toString(), //SQL doesn't like arrays so login history is stored as LONGTEXT where every set of 13 numbers is a Date.now() entry. The first 13 characters will be the registration date, the next 13 are the next login, last 13 are most recent login
+		last_login: Date.now().toString()
             };
 		 
             users.push(newUser);
             console.log('User list', users);
               
 		// inserting new user data into table
-	    const adduser = db.prepare(`INSERT INTO userinfo (id, username, email, password) VALUES (?,?,?,?)`);
+	    const adduser = db.prepare(`INSERT INTO userinfo (id, username, email, password, login_history, last_login) VALUES (?,?,?,?,?,?)`);
 		// inserting the values from newUser into the SQL statement
-	    const info = adduser.run(newUser.id, newUser.username, newUser.email, newUser.password);
+	    const info = adduser.run(newUser.id, newUser.username, newUser.email, newUser.password, newUser.login_history, newUser.last_login);
 	    
             console.log('this is info.changes: ' + info.changes); // outputs 1 to console if user had been successfully added
 
@@ -80,6 +90,14 @@ app.post('/register', async (req, res) => {
         } else {
             res.send("<div align ='center'><h2>Email already used</h2></div><br><br><div align='center'><a href='./registration.html'>Register again</a><br><a href='./login.html'>Login</a><br></div>");
         }
+	
+	const x = db.prepare(`select username, password, email from userinfo where email = ?`);
+
+	const y = x.get(req.body.email);
+	morgan.token("username", function getCode(req) {
+		 return y.username;
+	 });
+
     } catch (e) {
         res.send("Error: " + e.message);
     }
@@ -108,6 +126,16 @@ app.post('/login', async (req, res) => {
     
             const passwordMatch = await bcrypt.compare(submittedPass, storedPass);
             if (passwordMatch) {
+		//var new_log = Date.now().toString()
+		//var q1 = `UPDATE userinfo SET last_login = ` + new_log + ` WHERE email = req.body.email`
+		//var q2 = `UPDATE userinfo SET login_history = login_history` + last_login `WHERE email = req.body.email`
+		//const g = db.query(q1)
+		//const f = db.query(q2)
+		
+		morgan.token("username", function getCode(req) {
+			 return d.username;
+                });
+
                 res.sendFile(path.join(__dirname,'./frontend/checklist.html'));
 		
 	    } 

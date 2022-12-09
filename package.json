@@ -21,7 +21,11 @@
     "better-sqlite3": "^8.0.1",
     "body-parser": "^1.20.1",
     "express": "^4.18.2",
-    "minimist": "^1.2.7"
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security",
+    "minimist": "^1.2.7",
+    "morgan": "^1.10.0",
+    "path": "^0.12.7"
   },
   "type": "commonjs"
 }
